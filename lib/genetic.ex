@@ -1,32 +1,39 @@
 defmodule Genetic do
+    @moduledoc false
     alias GenAgent, as: Agent
-  @moduledoc """
-  Documentation for Genetic.
-  """
+    alias GeneticView, as: View
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Genetic.hello
-      :world
-
-  """
     def init do
-        generation = create_generation(50, 0.5, 0.1)
-
-        # chromossome = %Chromossome{ gens: [genA, genB, genC]}
-
-        generation
+        start
+        |> start_generation
+        |> selection
+        |> tournament
     end
 
-    def play_game(generation) do
+    def start() do
+        View.welcome
+        View.ask_params([population_size: [type: "integer", label: "Population Size"],
+                         crossover_tax: [type: "float", label: "Crossover Tax"],
+                         mutation_tax: [type: "float", label: "Mutation Tax"]])
+    end
+
+    def start_generation(params) do
+        create_generation(
+                params[:population_size],
+                params[:crossover_tax],
+                params[:mutation_tax])
+    end
+
+    def selection(generation) do
         get_pairs(generation.population)
     end
 
-    def finish(population) do
+    def tournament(population) do
         Enum.map(population, fn(x) -> GenAgent.compare(Enum.at(x, 0), Enum.at(x, 1)) end)
+    end
+
+    def fill_exist_population() do
+
     end
 
     defp get_pairs(population), do: length(population) |> get_pairs(population, [])
