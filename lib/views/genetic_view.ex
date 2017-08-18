@@ -31,4 +31,8 @@ defmodule GeneticView do
             _ -> :error
         end
     end
+
+    def results do
+        IO.puts "Bye Bye"
+    end
 end

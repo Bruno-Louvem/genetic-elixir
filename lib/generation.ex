@@ -3,6 +3,7 @@ defmodule Generation do
         population: nil,
         crossover_tax: nil,
         mutation_tax: nil,
-        population_size: nil
+        population_size: nil,
+        winner: false
     ]
 end
